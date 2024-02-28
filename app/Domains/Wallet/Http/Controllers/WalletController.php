@@ -4,12 +4,22 @@ namespace App\Domains\Wallet\Http\Controllers;
 
 use App\Domains\Wallet\Http\Requests\StoreWalletRequest;
 use App\Domains\Wallet\Models\Wallet;
+use App\Domains\Wallet\Services\WalletService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class WalletController extends Controller
 {
+    /** @var WalletService */
+    protected $walletService;
+
+    public function __construct(
+        WalletService $walletService
+    ) {
+        $this->walletService = $walletService;
+    }
+
     /**
      * Returns a user's funds on their wallets.
      */
@@ -42,11 +52,7 @@ class WalletController extends Controller
     public function store(StoreWalletRequest $request)
     {
         try {
-            Wallet::create([
-                'quantity' => $request->quantity,
-                'user_id' => $request->user()->id,
-                'currency_id' => $request->currency_id,
-            ]);
+            $this->walletService->addBoughtFundsToWallet($request->quantity, $request->currency_id, $request->user());
 
             return response()->json([
                 'success' => 'Fundos adicionados com sucesso.',

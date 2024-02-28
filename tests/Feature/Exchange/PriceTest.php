@@ -13,3 +13,15 @@ test('it throws an exception for an invalid currency exchange', function () {
     $this->withoutExceptionHandling();
     expect(fn () => (new PriceService)->getAskPrice('BRL', 'ZZZ'))->toThrow(ExchangeNotFoundException::class, 'Conversão não encontrada ou suportada.');
 });
+
+test('it can return the ask price for a valid currency exchange from endpoint', function () {
+    $response = $this->get('api/exchange/price?from=BRL&to=USD');
+
+    $response->assertStatus(200);
+});
+
+test('it throws an exception for an invalid currency exchange from endpoint', function () {
+    $response = $this->get('api/exchange/price?from=BRL&to=ZZZ');
+
+    $response->assertInvalid(['to']);
+});
