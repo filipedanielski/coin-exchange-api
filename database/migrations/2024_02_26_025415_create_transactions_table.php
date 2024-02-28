@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('quantity');
             $table->decimal('fee');
-            $table->decimal('rate');
+            $table->float('rate', 10, 4);
             $table->decimal('bought');
             $table->foreignId('from')->constrained('currencies');
             $table->foreignId('to')->constrained('currencies');
