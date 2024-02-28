@@ -32,7 +32,7 @@ class TransactionService
         $target_currency = Currency::where('code', $to)->first();
 
         try {
-            $rate = $this->priceService->getAskPrice($from, $to);
+            $rate = $this->priceService->getPrice($from, $to);
             $this->walletService->checkIfUserHasSufficientFunds($quantity, $origin_currency->id, $user);
         } catch (ExchangeNotFoundException $e) {
             throw $e;

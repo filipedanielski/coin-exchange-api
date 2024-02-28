@@ -19,7 +19,7 @@ class PriceController extends Controller
     }
 
     /**
-     * Get the ask price for a certain exchange.
+     * Get the price for a certain exchange.
      */
     public function index(Request $request)
     {
@@ -28,7 +28,7 @@ class PriceController extends Controller
             'to' => 'required|filled|string|exists:currencies,code',
         ]);
         try {
-            $rate = $this->priceService->getAskPrice($request->from, $request->to);
+            $rate = $this->priceService->getPrice($request->from, $request->to);
             return $rate;
         } catch (ExchangeNotFoundException $e) {
             return response()->json([

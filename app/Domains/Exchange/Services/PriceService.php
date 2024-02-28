@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class PriceService
 {
-    public function getAskPrice(string $origin_currency, string $target_currency)
+    public function getPrice(string $origin_currency, string $target_currency)
     {
         $response = Http::withUrlParameters([
             'endpoint' => 'https://economia.awesomeapi.com.br/json/last',
@@ -18,6 +18,6 @@ class PriceService
             throw new ExchangeNotFoundException();
         }
 
-        return floatval($response->collect()->first()['ask']);
+        return floatval($response->collect()->first()['bid']);
     }
 }
