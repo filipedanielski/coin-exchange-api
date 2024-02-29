@@ -29,6 +29,7 @@ class PriceController extends Controller
         ]);
         try {
             $rate = $this->priceService->getPrice($request->from, $request->to);
+
             return $rate;
         } catch (ExchangeNotFoundException $e) {
             return response()->json([
